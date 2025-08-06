@@ -1,0 +1,22 @@
+.recipe-form .ingredient-inputs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.recipe-form .remove-ingredient-button {
+  background-color: #dc3545;
+}
+
+.recipe-form .remove-ingredient-button:hover {
+  background-color: #c82333;
+}
+
+.recipe-form .add-ingredient-button {
+  background-color: #28a745;
+  margin-right: 1rem;
+}
+
+.recipe-form .add-ingredient-button:hover {
+  background-color: #218838;
+}

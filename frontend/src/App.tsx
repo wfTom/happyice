@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, NavLink } from 'react-router-dom';
+import './styles/navigation.css';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import RecipeList from './pages/RecipeList';
+import RecipeForm from './pages/RecipeForm';
+import FavoriteRecipes from './pages/FavoriteRecipes';
+import RecipeDetail from './pages/RecipeDetail';
+import { useAuth } from './context/AuthContext';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { user, logout } = useAuth();
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <nav>
+        <ul>
+          <li><NavLink to="/">Home</NavLink></li>
+          <li><NavLink to="/recipes/new">New Recipe</NavLink></li>
+          <li><NavLink to="/favorites">Favorites</NavLink></li>
+          {user ? (
+            <li><button onClick={logout}>Logout</button></li>
+          ) : (
+            <>
+              <li><NavLink to="/login">Login</NavLink></li>
+              <li><NavLink to="/register">Register</NavLink></li>
+            </>
+          )}
+        </ul>
+      </nav>
+      <main className="container">
+        <Routes>
+          <Route path="/" element={<RecipeList />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/recipes" element={<RecipeList />} />
+          <Route path="/recipes/new" element={<RecipeForm />} />
+          <Route path="/recipes/edit/:id" element={<RecipeForm />} />
+          <Route path="/recipes/:id" element={<RecipeDetail />} />
+          <Route path="/favorites" element={<FavoriteRecipes />} />
+        </Routes>
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;

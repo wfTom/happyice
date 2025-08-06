@@ -1,0 +1,8 @@
+.recipe-detail .favorite-button {
+  margin-left: 1rem;
+  background-color: #28a745;
+}
+
+.recipe-detail .favorite-button:hover {
+  background-color: #218838;
+}

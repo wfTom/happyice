@@ -7,7 +7,18 @@ COPY . .
 RUN npm run build
 
 # production stage
-FROM nginx:stable-alpine as production-stage
-COPY --from=build-stage /app/dist /usr/share/nginx/html
+FROM node:22-alpine
+WORKDIR /app
+
+# Copy built assets and necessary files
+COPY --from=build-stage /app/dist ./dist
+COPY --from=build-stage /app/package.json ./
+COPY --from=build-stage /app/package-lock.json ./
+
+# Install serve
+RUN npm install serve
+
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+# Start server with serve, -s for SPA mode
+CMD ["npx", "serve", "-s", "dist", "-l", "80"]
