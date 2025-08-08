@@ -94,10 +94,6 @@ label {
   padding: 2rem;
 }
 
-.container {
-  padding: 2rem;
-}
-
 .recipe-list,
 .favorite-recipes {
   list-style: none;
@@ -108,7 +104,6 @@ label {
 .favorite-recipe-item {
   background: #f9f9f9;
   border: 1px solid #eee;
-  padding: 1.5rem;
   margin-bottom: 1rem;
   border-radius: 5px;
 }
@@ -123,4 +118,12 @@ label {
   text-align: center;
   margin-bottom: 2rem;
   color: #333;
+}
+
+.container {
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+  box-sizing: border-box;
 }

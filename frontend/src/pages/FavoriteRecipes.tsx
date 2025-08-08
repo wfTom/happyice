@@ -35,12 +35,18 @@ const FavoriteRecipes: React.FC = () => {
     return <div className="loading">Carregando receitas favoritas...</div>;
   }
 
-  if (error) {
-    return <div className="error">Erro: {error}</div>;
+  if (!user) {
+    return (
+      <div className="error" style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+        Opa! Parece que você não está logado.
+        <br />
+        Por favor, faça login para acessar suas receitas favoritas.
+      </div>
+    );
   }
 
-  if (!user) {
-    return <div className="error">Por favor, faça login para ver suas receitas favoritas.</div>;
+  if (error) {
+    return <div className="error">Erro: {error}</div>;
   }
 
   return (
@@ -63,7 +69,9 @@ const FavoriteRecipes: React.FC = () => {
               <h4>Ingredientes:</h4>
               <ul>
                 {recipe.ingredients.map((ingredient, index) => (
-                  <li key={index}>{ingredient.quantity} {ingredient.unit} de {ingredient.name}</li>
+                  <li key={index}>
+                    {ingredient.quantity} {ingredient.unit} de {ingredient.name}
+                  </li>
                 ))}
               </ul>
             </li>

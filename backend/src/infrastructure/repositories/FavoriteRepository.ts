@@ -72,11 +72,12 @@ export class FavoriteRepository implements IFavoriteRepository {
         const recipeIngredient = new RecipeIngredient(
           row.recipe_id,
           row.ingredient_id,
+          row.ingredient_name,
           row.quantity,
           row.unit,
           row.display_order
         );
-        recipe.ingredients.push({ ...recipeIngredient });
+        recipe.ingredients.push(recipeIngredient);
       }
     }
 

@@ -9,7 +9,7 @@ export class UserRepository implements IUserRepository {
 
   async findByEmail(email: Email): Promise<User | null> {
     const result = await this.db.query('SELECT * FROM users WHERE email = $1', [
-      email,
+      email.value,
     ]);
     if (result.rows.length === 0) {
       return null;

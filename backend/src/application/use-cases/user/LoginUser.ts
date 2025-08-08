@@ -12,9 +12,9 @@ export class LoginUser {
 
     const user = await this.userRepository.findByEmail(userEmail);
     if (!user) {
-      throw new Error('Email ou senha incorretos');
+      throw new Error('Email ou senha estão incorretos');
     }
-
+    console.log(user);
     const isPasswordValid = user.password.compare(password);
     if (!isPasswordValid) {
       throw new Error('Email ou senha incorretos');

@@ -33,6 +33,8 @@ services:
       DB_NAME: happyice
       DB_HOST: db
       DB_PORT: 5432
+      JAEGER_AGENT_HOST: jaeger
+      JAEGER_AGENT_PORT: 6832
     depends_on:
       db:
         condition: service_healthy

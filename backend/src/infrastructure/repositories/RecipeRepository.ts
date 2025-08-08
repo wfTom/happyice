@@ -35,9 +35,10 @@ export class RecipeRepository implements IRecipeRepository {
           new RecipeIngredient(
             row.id,
             row.ingredient_id,
+            row.ingredient_name,
             row.ingredient_quantity,
-            row.ingredient_unit,
-            row.ingredient_order ?? 0
+            row.ingredient_order ?? 0,
+            row.ingredient_unit
           )
         );
       }
@@ -50,7 +51,8 @@ export class RecipeRepository implements IRecipeRepository {
       SELECT
           r.id, r.user_id, r.name, r.description, r.steps, r.created_at,
           i.id AS ingredient_id, i.name AS ingredient_name,
-          ri.quantity AS ingredient_quantity, ri.unit AS ingredient_unit
+          ri.quantity AS ingredient_quantity, ri.unit AS ingredient_unit,
+          ri.display_order
       FROM
           recipes r
       LEFT JOIN

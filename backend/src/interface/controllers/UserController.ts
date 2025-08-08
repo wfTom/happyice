@@ -19,6 +19,7 @@ export class UserController {
 
   async login(req: Request, res: Response): Promise<void> {
     try {
+      console.log('Login request received:', req.body);
       const { email, password } = req.body;
       const loginUser = new LoginUser(this.userRepository);
       const token = await loginUser.execute(email, password);

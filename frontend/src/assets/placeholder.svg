@@ -1,0 +1,13 @@
+<svg width="150" height="150" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- Background with rounded corners to create a frame -->
+<rect width="150" height="150" rx="12" fill="#F3F4F6"/>
+
+<!-- Chef's Hat Icon (Centered with padding) -->
+<g transform="translate(37.5, 35)">
+    <!-- Hat Top (Puffy part) -->
+    <path d="M37.5 0 C57.5 0, 75 10, 75 30 C75 50, 57.5 60, 37.5 60 C17.5 60, 0 50, 0 30 C0 10, 17.5 0, 37.5 0 Z" fill="#D1D5DB"/>
+    
+    <!-- Hat Base (Band) -->
+    <rect x="5" y="55" width="65" height="15" rx="5" fill="#9CA3AF"/>
+</g>
+</svg>

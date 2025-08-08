@@ -144,7 +144,7 @@ describe('RecipeController', () => {
         'Receita teste',
         'Descrição teste',
         ['Step'],
-        [new RecipeIngredient(recipeId, 'ing1', '1', 'unit', 0)],
+        [new RecipeIngredient(recipeId, 'ing1', 'Ingredient 1', '1', 'unit', 0)],
         new Date()
       );
       mockRequest.params = { id: recipeId };

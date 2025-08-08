@@ -42,7 +42,7 @@ describe('UpdateRecipe', () => {
       'Old Name',
       'Old Description',
       ['Old Step'],
-      [new RecipeIngredient(recipeId, 'oldIng', '1', 'unit', 0)],
+      [new RecipeIngredient(recipeId, 'oldIng', 'Old Ingredient', '1', 'unit', 0)],
       new Date()
     );
 
@@ -63,8 +63,11 @@ describe('UpdateRecipe', () => {
         return null;
       }
     );
+    // TODO explain this part
     mockIngredientRepository.save.mockImplementation(
-      async (ingredient: Ingredient) => {}
+      async (ingredient: Ingredient) => {
+        /* do nothing */
+      }
     );
 
     await updateRecipe.execute(
@@ -77,7 +80,7 @@ describe('UpdateRecipe', () => {
 
     expect(mockRecipeRepository.findById).toHaveBeenCalledWith(recipeId);
     expect(mockIngredientRepository.findByName).toHaveBeenCalledTimes(2);
-    expect(mockIngredientRepository.save).toHaveBeenCalledTimes(1);
+    expect(mockIngredientRepository.save).toHaveBeenCalledTimes(1); // Only for 'New Ingredient A'
     expect(mockRecipeRepository.save).toHaveBeenCalledTimes(1);
 
     const savedRecipe = mockRecipeRepository.save.mock.calls[0][0];

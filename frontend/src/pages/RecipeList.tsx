@@ -7,6 +7,7 @@ import {
 } from '../services/recipe';
 import type { Recipe } from '../types/Recipe';
 import { Link } from 'react-router-dom';
+import placeholderImage from '../assets/placeholder.svg';
 
 const RecipeList: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -94,7 +95,7 @@ const RecipeList: React.FC = () => {
               >
                 <img
                   className="thumb"
-                  src={'/placeholder.jpg'}
+                  src={placeholderImage}
                   alt={recipe.name}
                   loading="lazy"
                 />

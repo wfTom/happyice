@@ -33,7 +33,7 @@ describe('ListFavoriteRecipes', () => {
       'Recipe 1',
       'Desc 1',
       ['Step 1'],
-      [new RecipeIngredient('recipe1', 'ing1', '1', 'unit', 0)],
+      [new RecipeIngredient('recipe1', 'ing1', 'Ingredient 1', '1', 'unit', 0)],
       new Date()
     );
     const recipe2 = new Recipe(
@@ -42,7 +42,7 @@ describe('ListFavoriteRecipes', () => {
       'Recipe 2',
       'Desc 2',
       ['Step 2'],
-      [new RecipeIngredient('recipe2', 'ing2', '1', 'unit', 0)],
+      [new RecipeIngredient('recipe2', 'ing2', 'Ingredient 2', '1', 'unit', 0)],
       new Date()
     );
 

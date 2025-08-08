@@ -10,7 +10,7 @@ const Header: React.FC = () => {
   return (
     <header className="site-header">
       <div className="logo">
-        <NavLink to="/">🍳 CookBook</NavLink>
+        <NavLink to="/">🍳 CookBook - HappyIce</NavLink>
       </div>
 
       <nav>
@@ -34,7 +34,7 @@ const Header: React.FC = () => {
                 <NavLink to="/login">Login</NavLink>
               </li>
               <li>
-                <NavLink to="/register">Registrar</NavLink>
+                <NavLink to="/register">Cadastar</NavLink>
               </li>
             </>
           )}

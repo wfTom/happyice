@@ -1,4 +1,4 @@
-import { DeleteRecipe } from '../DeleteRecipe';
+import { GetRecipe } from '../GetRecipe';
 import { IRecipeRepository } from '../../../../domain/repositories/IRecipeRepository';
 import { Recipe } from '../../../../domain/entities/recipe';
 import { RecipeIngredient } from '../../../../domain/entities/recipe-ingredient';
@@ -6,9 +6,9 @@ import { Email } from '../../../../domain/value-objects/email';
 import { Password } from '../../../../domain/value-objects/password';
 import { User } from '../../../../domain/entities/user';
 
-describe('DeleteRecipe', () => {
+describe('GetRecipe with ingredients', () => {
   let mockRecipeRepository: jest.Mocked<IRecipeRepository>;
-  let deleteRecipe: DeleteRecipe;
+  let getRecipe: GetRecipe;
 
   beforeEach(() => {
     mockRecipeRepository = {
@@ -19,10 +19,10 @@ describe('DeleteRecipe', () => {
       searchByName: jest.fn(),
       searchByIngredient: jest.fn(),
     };
-    deleteRecipe = new DeleteRecipe(mockRecipeRepository);
+    getRecipe = new GetRecipe(mockRecipeRepository);
   });
 
-  it('should delete a recipe successfully', async () => {
+  it('should return a recipe with ingredients if found', async () => {
     const recipeId = 'recipe123';
     const user = new User(
       '1',
@@ -41,23 +41,12 @@ describe('DeleteRecipe', () => {
     );
 
     mockRecipeRepository.findById.mockResolvedValue(recipe);
-    mockRecipeRepository.delete.mockResolvedValue(undefined);
 
-    await deleteRecipe.execute(recipeId);
+    const result = await getRecipe.execute(recipeId);
 
     expect(mockRecipeRepository.findById).toHaveBeenCalledWith(recipeId);
-    expect(mockRecipeRepository.delete).toHaveBeenCalledWith(recipeId);
-  });
-
-  it('should throw an error if the recipe is not found', async () => {
-    const recipeId = 'nonexistentRecipe';
-
-    mockRecipeRepository.findById.mockResolvedValue(null);
-
-    await expect(deleteRecipe.execute(recipeId)).rejects.toThrow(
-      'Receita não encontrada'
-    );
-    expect(mockRecipeRepository.findById).toHaveBeenCalledWith(recipeId);
-    expect(mockRecipeRepository.delete).not.toHaveBeenCalled();
+    expect(result).toEqual(recipe);
+    expect(result?.ingredients).toHaveLength(1);
+    expect(result?.ingredients[0].name).toBe('Ingredient 1');
   });
 });

@@ -8,11 +8,9 @@ const Home: React.FC = () => {
       <section className="hero">
         <h1>Descubra e compartilhe receitas incríveis</h1>
         <p>Explore pratos deliciosos criados por nossa comunidade.</p>
-        <button>
-          <a href="/recipes/new" className="btn-primary">
-            Compartilhar Receita
-          </a>
-        </button>
+        <a href="/recipes/new" className="btn-primary">
+          Compartilhar Receita
+        </a>
       </section>
 
       <section className="recipe-section">

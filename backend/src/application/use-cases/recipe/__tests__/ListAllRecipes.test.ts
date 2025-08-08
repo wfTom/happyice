@@ -37,7 +37,7 @@ describe('ListAllRecipes', () => {
         'Recipe 1',
         'Description 1',
         ['Step 1'],
-        [new RecipeIngredient('recipe1', 'ing1', '1', 'unit', 0)],
+        [new RecipeIngredient('recipe1', 'ing1', 'Ingredient 1', '1', 'unit', 0)],
         new Date()
       ),
       new Recipe(
@@ -46,7 +46,7 @@ describe('ListAllRecipes', () => {
         'Recipe 2',
         'Description 2',
         ['Step 1'],
-        [new RecipeIngredient('recipe2', 'ing2', '1', 'unit', 0)],
+        [new RecipeIngredient('recipe2', 'ing2', 'Ingredient 2', '1', 'unit', 0)],
         new Date()
       ),
     ];

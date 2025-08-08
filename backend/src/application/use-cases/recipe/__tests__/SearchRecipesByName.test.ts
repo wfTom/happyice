@@ -36,7 +36,7 @@ describe('SearchRecipesByName', () => {
       'Pasta Carbonara',
       'Italian',
       ['step'],
-      [new RecipeIngredient('recipe1', 'ing1', '1', 'unit', 0)],
+      [new RecipeIngredient('recipe1', 'ing1', 'Ingredient 1', '1', 'unit', 0)],
       new Date()
     );
     const recipe2 = new Recipe(
@@ -45,7 +45,7 @@ describe('SearchRecipesByName', () => {
       'Pasta with Pesto',
       'Italian',
       ['step'],
-      [new RecipeIngredient('recipe2', 'ing2', '1', 'unit', 0)],
+      [new RecipeIngredient('recipe2', 'ing2', 'Ingredient 2', '1', 'unit', 0)],
       new Date()
     );
 

@@ -7,15 +7,18 @@ import {
   unfavoriteRecipe,
   listFavoriteRecipes,
 } from '../services/favorite';
+import placeholderImage from '../assets/placeholder.svg';
+import heart from '../assets/heart.svg';
+import heartFill from '../assets/heart-fill.svg';
 import type { Recipe } from '../types/Recipe';
 import { useAuth } from '../context/AuthContext';
 
 const RecipeDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -24,7 +27,6 @@ const RecipeDetail: React.FC = () => {
       try {
         const recipeResponse = await getRecipe(id);
         setRecipe(recipeResponse);
-        console.log('Detalhes da receita buscados:', recipeResponse);
 
         if (user) {
           const favoriteRecipesResponse = await listFavoriteRecipes(user.id);
@@ -35,10 +37,6 @@ const RecipeDetail: React.FC = () => {
         }
       } catch (err: any) {
         setError(err.message);
-        console.error(
-          'Erro ao buscar detalhes da receita ou status de favorito:',
-          err
-        );
       } finally {
         setLoading(false);
       }
@@ -52,53 +50,76 @@ const RecipeDetail: React.FC = () => {
     try {
       if (isFavorite) {
         await unfavoriteRecipe(user.id, recipe.id!);
-        console.log('Receita desfavoritada');
       } else {
         await favoriteRecipe(user.id, recipe.id!);
-        console.log('Receita favoritada');
       }
       setIsFavorite(!isFavorite);
-    } catch (err: any) {
-      console.error('Erro ao alternar favorito:', err);
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  if (loading) {
+  if (loading)
     return <div className="loading">Carregando detalhes da receita...</div>;
-  }
-
-  if (error) {
-    return <div className="error">Erro: {error}</div>;
-  }
-
-  if (!recipe) {
-    return <div>Receita não encontrada.</div>;
-  }
+  if (error) return <div className="error">Erro: {error}</div>;
+  if (!recipe) return <div>Receita não encontrada.</div>;
 
   return (
     <div className="recipe-detail">
-      <h2>{recipe.name}</h2>
-      <button onClick={handleFavoriteToggle} className="favorite-button" disabled={!user}>
-        {isFavorite ? 'Desfavoritar' : 'Favoritar'}
-      </button>
-      {!user && <p>Faça login para favoritar receitas.</p>}
-      <p>
+      <div className="recipe-header">
+        <h2>{recipe.name}</h2>
+        <button
+          onClick={handleFavoriteToggle}
+          className="favorite-button"
+          disabled={!user}
+          aria-label={
+            isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'
+          }
+        >
+          <img
+            src={isFavorite ? heartFill : heart}
+            alt="Favoritar"
+            width="28"
+            height="28"
+          />
+        </button>
+      </div>
+
+      {!user && (
+        <p className="login-hint">Faça login para favoritar receitas.</p>
+      )}
+      <p className="description">
         <strong>Descrição:</strong> {recipe.description}
       </p>
-      <h3>Passos:</h3>
-      <ol>
-        {recipe.steps.map((step, index) => (
-          <li key={index}>{step}</li>
-        ))}
-      </ol>
-      <h3>Ingredientes:</h3>
-      <ul>
-        {recipe.ingredients.map((ingredient, index) => (
-          <li key={index}>
-            {ingredient.quantity} {ingredient.unit} de {ingredient.name}
-          </li>
-        ))}
-      </ul>
+
+      <img
+        className="thumb"
+        src={placeholderImage}
+        alt={recipe.name}
+        loading="lazy"
+      />
+
+      <div className="recipe-content">
+        <div>
+          <h3>Passos</h3>
+          <ol>
+            {recipe.steps.map((step, index) => (
+              <li key={index}>{step}</li>
+            ))}
+          </ol>
+        </div>
+
+        <div>
+          <h3>Ingredientes</h3>
+          <ul>
+            {recipe.ingredients.map((ingredient, index) => (
+              <li key={index}>
+                {ingredient.quantity} {ingredient.unit} de {ingredient.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };

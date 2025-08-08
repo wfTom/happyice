@@ -42,6 +42,7 @@ export class UpdateRecipe {
         return new RecipeIngredient(
           id,
           ingredient.id,
+          ing.name,
           ing.quantity,
           ing.unit,
           index

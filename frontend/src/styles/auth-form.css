@@ -31,7 +31,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f9f5f1;
+  /* background-color: #f9f5f1; */
 }
 
 /* fff3e0 */
@@ -42,15 +42,6 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
-}
-
-.login-card {
-  background-color: rgba(255, 255, 255, 0.95);
-  padding: 2.25rem;
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-  width: 100%;
-  max-width: 460px;
 }
 
 .login-card input {
@@ -71,6 +62,16 @@
   color: #fff;
   font-weight: 700;
   border: none;
+}
+
+.login-card {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 2.25rem;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  max-width: 460px;
+  min-height: 400px;
 }
 
 @media (max-width: 480px) {

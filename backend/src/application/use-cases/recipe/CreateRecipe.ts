@@ -38,6 +38,7 @@ export class CreateRecipe {
         return new RecipeIngredient(
           recipeId,
           ingredient.id,
+          ing.name,
           ing.quantity,
           ing.unit,
           index

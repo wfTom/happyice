@@ -142,7 +142,7 @@ describe('FavoriteController', () => {
           'Receita 1',
           'Desc 1',
           ['Step 1'],
-          [new RecipeIngredient('1', 'ing1', '1', 'unit', 0)],
+          [new RecipeIngredient('1', 'ing1', 'Ingredient 1', '1', 'unit', 0)],
           new Date()
         ),
       ];

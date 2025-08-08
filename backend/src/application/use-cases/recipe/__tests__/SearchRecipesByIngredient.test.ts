@@ -38,7 +38,7 @@ describe('SearchRecipesByIngredient', () => {
       'Tomato Soup',
       'Soup',
       ['step'],
-      [new RecipeIngredient('recipe1', 'ing1', '1', 'unit', 0)],
+      [new RecipeIngredient('recipe1', 'ing1', 'Tomato', '1', 'unit', 0)],
       new Date()
     );
     const recipe2 = new Recipe(
@@ -47,7 +47,7 @@ describe('SearchRecipesByIngredient', () => {
       'Tomato Salad',
       'Salad',
       ['step'],
-      [new RecipeIngredient('recipe2', 'ing2', '1', 'unit', 0)],
+      [new RecipeIngredient('recipe2', 'ing2', 'Tomato', '1', 'unit', 0)],
       new Date()
     );
 

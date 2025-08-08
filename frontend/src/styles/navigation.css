@@ -36,6 +36,26 @@ nav ul li a.active {
   position: sticky;
   top: 0;
   z-index: 1000;
+  min-height: 64px;
+}
+
+.site-header nav ul li a,
+.site-header nav ul li button {
+  color: #222;
+  font-weight: 500;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.site-header nav ul li a:hover,
+.site-header nav ul li a.active,
+.site-header nav ul li button:hover {
+  background-color: #f9f5f1;
+  color: #d9552a;
 }
 
 .site-header .logo a {
@@ -43,6 +63,9 @@ nav ul li a.active {
   font-weight: 700;
   color: #d9552a;
   text-decoration: none;
+  background-color: #f1e8df; /* lightpink; */
+  padding: 4px 12px;
+  border-radius: 8px;
 }
 
 .site-header nav {
@@ -56,6 +79,18 @@ nav ul li a.active {
   align-items: center;
   margin: 0;
   padding: 0;
+}
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+nav ul li {
+  flex: 0 0 auto;
 }
 
 .site-header nav a,
@@ -113,6 +148,13 @@ nav ul li a.active {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  nav ul {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
