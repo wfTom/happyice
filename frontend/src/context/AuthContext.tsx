@@ -36,13 +36,22 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   const login = async (email: string, password: string) => {
-    const response = await authLogin(email, password);
-    console.log(response);
-    const { token, user } = response;
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
+    const token = await authLogin(email, password);
     setToken(token);
-    setUser(user);
+    localStorage.setItem('token', token);
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const user = {
+        id: payload.id,
+        email: payload.email,
+        username: payload.email,
+      };
+      setUser(user);
+      localStorage.setItem('user', JSON.stringify(user));
+    } catch (e) {
+      console.error('Error decoding token', e);
+    }
   };
 
   const register = async (
