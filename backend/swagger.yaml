@@ -1,0 +1,460 @@
+openapi: 3.0.0
+info:
+  title: HappyIce Backend API
+  version: 1.0.0
+  description: API para gerenciar receitas, usuários e favoritos.
+servers:
+  - url: /api
+paths:
+  /favorites:
+    post:
+      tags:
+        - Favorites
+      summary: Adicionar uma receita aos favoritos do usuário.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recipeId:
+                  type: string
+                  description: ID da receita a ser favoritada.
+              required:
+                - recipeId
+      responses:
+        '201':
+          description: Receita favoritada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Requisição inválida.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags:
+        - Favorites
+      summary: Listar todas as receitas favoritas para o usuário autenticado.
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Lista de receitas favoritas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recipe'
+        '500':
+          description: Erro interno do servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /favorites/{recipeId}:
+    delete:
+      tags:
+        - Favorites
+      summary: Remover uma receita dos favoritos do usuário.
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: recipeId
+          schema:
+            type: string
+          required: true
+          description: ID da receita a ser desfavoritada.
+      responses:
+        '200':
+          description: Receita desfavoritada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Requisição inválida.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /recipes:
+    post:
+      tags:
+        - Recipes
+      summary: Criar uma nova receita.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                steps:
+                  type: array
+                  items:
+                    type: string
+                ingredients:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/RecipeIngredient'
+              required:
+                - name
+                - description
+                - steps
+                - ingredients
+      responses:
+        '201':
+          description: Receita criada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Requisição inválida.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /recipes/{id}:
+    get:
+      tags:
+        - Recipes
+      summary: Obter receita por ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID da receita.
+      responses:
+        '200':
+          description: Receita encontrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+        '404':
+          description: Receita não encontrada.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Erro interno do servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - Recipes
+      summary: Atualizar uma receita existente.
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID da receita a ser atualizada.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                steps:
+                  type: array
+                  items:
+                    type: string
+                ingredients:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/RecipeIngredient'
+              required:
+                - name
+                - description
+                - steps
+                - ingredients
+      responses:
+        '200':
+          description: Receita atualizada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Requisição inválida.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - Recipes
+      summary: Excluir uma receita por ID.
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID da receita a ser excluída.
+      responses:
+        '200':
+          description: Receita excluída com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Requisição inválida.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /recipes/search/name:
+    get:
+      tags:
+        - Recipes
+      summary: Buscar receitas por nome.
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+          required: true
+          description: Nome da receita para buscar.
+      responses:
+        '200':
+          description: Lista de receitas encontradas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recipe'
+        '400':
+          description: Nome da receita é obrigatório.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Erro interno do servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /recipes/search/ingredient:
+    get:
+      tags:
+        - Recipes
+      summary: Buscar receitas por ingrediente.
+      parameters:
+        - in: query
+          name: ingredient
+          schema:
+            type: string
+          required: true
+          description: Nome do ingrediente para buscar.
+      responses:
+        '200':
+          description: Lista de receitas encontradas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recipe'
+        '400':
+          description: Nome do ingrediente é obrigatório.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Erro interno do servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/register:
+    post:
+      tags:
+        - Users
+      summary: Registrar um novo usuário.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+              required:
+                - email
+                - password
+      responses:
+        '201':
+          description: Usuário registrado com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Requisição inválida.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/login:
+    post:
+      tags:
+        - Users
+      summary: Fazer login de um usuário.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+              required:
+                - email
+                - password
+      responses:
+        '200':
+          description: Login bem-sucedido, retorna um token de autenticação.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '400':
+          description: Credenciais inválidas.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    RecipeIngredient:
+      type: object
+      properties:
+        recipeId:
+          type: string
+        ingredientId:
+          type: string
+        quantity:
+          type: string
+        unit:
+          type: string
+        displayOrder:
+          type: number
+      required:
+        - recipeId
+        - ingredientId
+        - quantity
+        - unit
+        - displayOrder
+    Recipe:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        steps:
+          type: array
+          items:
+            type: string
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeIngredient'
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - userId
+        - name
+        - description
+        - steps
+        - ingredients
+        - createdAt
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
