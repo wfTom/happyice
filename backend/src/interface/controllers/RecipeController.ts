@@ -5,6 +5,7 @@ import { UpdateRecipe } from '../../application/use-cases/recipe/UpdateRecipe';
 import { DeleteRecipe } from '../../application/use-cases/recipe/DeleteRecipe';
 import { SearchRecipesByName } from '../../application/use-cases/recipe/SearchRecipesByName';
 import { SearchRecipesByIngredient } from '../../application/use-cases/recipe/SearchRecipesByIngredient';
+import { ListAllRecipes } from '../../application/use-cases/recipe/ListAllRecipes';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware';
 
 export class RecipeController {
@@ -14,7 +15,8 @@ export class RecipeController {
     private readonly updateRecipe: UpdateRecipe,
     private readonly deleteRecipe: DeleteRecipe,
     private readonly searchRecipesByName: SearchRecipesByName,
-    private readonly searchRecipesByIngredient: SearchRecipesByIngredient
+    private readonly searchRecipesByIngredient: SearchRecipesByIngredient,
+    private readonly listAllRecipes: ListAllRecipes
   ) {}
 
   async create(req: AuthenticatedRequest, res: Response): Promise<void> {
@@ -85,7 +87,9 @@ export class RecipeController {
       const recipes = await this.searchRecipesByName.execute(name as string);
       res.json(recipes);
     } catch (error) {
-      console.error(error);
+      if (process.env.NODE_ENV !== 'test') {
+        console.error(error);
+      }
       res.status(500).json({ error: 'Internal server error' });
     }
   }
@@ -102,7 +106,21 @@ export class RecipeController {
       );
       res.json(recipes);
     } catch (error) {
-      console.error(error);
+      if (process.env.NODE_ENV !== 'test') {
+        console.error(error);
+      }
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+
+  async getAll(req: Request, res: Response): Promise<void> {
+    try {
+      const recipes = await this.listAllRecipes.execute();
+      res.json(recipes);
+    } catch (error: any) {
+      if (process.env.NODE_ENV !== 'test') {
+        console.error(error);
+      }
       res.status(500).json({ error: 'Internal server error' });
     }
   }

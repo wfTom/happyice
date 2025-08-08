@@ -6,6 +6,7 @@ import { UpdateRecipe } from '../../application/use-cases/recipe/UpdateRecipe';
 import { DeleteRecipe } from '../../application/use-cases/recipe/DeleteRecipe';
 import { SearchRecipesByName } from '../../application/use-cases/recipe/SearchRecipesByName';
 import { SearchRecipesByIngredient } from '../../application/use-cases/recipe/SearchRecipesByIngredient';
+import { ListAllRecipes } from '../../application/use-cases/recipe/ListAllRecipes';
 import { IRecipeRepository } from '../../domain/repositories/IRecipeRepository';
 import { IIngredientRepository } from '../../domain/repositories/IIngredientRepository';
 import { authMiddleware } from '../middlewares/authMiddleware';
@@ -24,6 +25,7 @@ export const createRecipeRoutes = (
   const searchRecipesByIngredient = new SearchRecipesByIngredient(
     recipeRepository
   );
+  const listAllRecipes = new ListAllRecipes(recipeRepository);
 
   const recipeController = new RecipeController(
     createRecipe,
@@ -31,15 +33,15 @@ export const createRecipeRoutes = (
     updateRecipe,
     deleteRecipe,
     searchRecipesByName,
-    searchRecipesByIngredient
+    searchRecipesByIngredient,
+    listAllRecipes
   );
 
-  router.use(authMiddleware);
-
-  router.post('/', (req, res) => recipeController.create(req, res));
+  router.post('/', authMiddleware, (req, res) => recipeController.create(req, res));
+  router.get('/', (req, res) => recipeController.getAll(req, res));
   router.get('/:id', (req, res) => recipeController.getById(req, res));
-  router.put('/:id', (req, res) => recipeController.update(req, res));
-  router.delete('/:id', (req, res) => recipeController.delete(req, res));
+  router.put('/:id', authMiddleware, (req, res) => recipeController.update(req, res));
+  router.delete('/:id', authMiddleware, (req, res) => recipeController.delete(req, res));
   router.get('/search/name', (req, res) =>
     recipeController.searchByName(req, res)
   );
