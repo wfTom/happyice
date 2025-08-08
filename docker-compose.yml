@@ -1,27 +1,32 @@
-version: '3.8'
-
 services:
   db:
-    image: postgres:14-alpine
+    image: postgres:17-alpine
     container_name: happyice-db
     restart: always
     ports:
-      - "5432:5432"
+      - '5433:5432'
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: happyice
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./backend/src/infrastructure/database/sql/init.sql:/docker-entrypoint-initdb.d/10-init.sql
+      - ./backend/src/infrastructure/database/sql/seed.sql:/docker-entrypoint-initdb.d/20-seed.sql
     networks:
       - happyice-net
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U user -d happyice']
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
     build: ./backend
     container_name: happyice-backend
     restart: always
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       DB_USER: user
       DB_PASSWORD: password
@@ -29,7 +34,8 @@ services:
       DB_HOST: db
       DB_PORT: 5432
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - happyice-net
 
@@ -38,7 +44,7 @@ services:
     container_name: happyice-frontend
     restart: always
     ports:
-      - "80:80"
+      - '80:80'
     depends_on:
       - backend
     networks:
