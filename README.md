@@ -274,8 +274,8 @@ docker-compose down -v
 
 O banco de dados é inicializado e populado automaticamente na primeira vez que o serviço do Docker é iniciado. Esse processo é gerenciado pelos scripts SQL localizados em `backend/src/infrastructure/database/sql/`:
 
--   **`10-init.sql`**: Este script é executado primeiro e é responsável por criar toda a estrutura de tabelas, chaves primárias, estrangeiras e outros constraints necessários para a aplicação.
--   **`20-seed.sql`**: Após a criação da estrutura, este script é executado para popular o banco de dados com dados iniciais (seeds). Isso inclui, por exemplo, uma lista de ingredientes comuns e algumas receitas de exemplo, permitindo que a aplicação seja utilizada imediatamente após a instalação.
+- **`10-init.sql`**: Este script é executado primeiro e é responsável por criar toda a estrutura de tabelas, chaves primárias, estrangeiras e outros constraints necessários para a aplicação.
+- **`20-seed.sql`**: Após a criação da estrutura, este script é executado para popular o banco de dados com dados iniciais (seeds). Isso inclui, por exemplo, uma lista de ingredientes comuns e algumas receitas de exemplo, permitindo que a aplicação seja utilizada imediatamente após a instalação.
 
 Se você precisar resetar o banco de dados, pode parar os contêineres com `docker-compose down -v` (o `-v` remove os volumes, incluindo os dados do banco) e iniciá-los novamente com `docker-compose up`.
 
@@ -291,17 +291,9 @@ docker-compose exec backend npm run test:coverage
 
 Isso criará uma pasta `coverage/` no diretório `backend/` com um relatório HTML interativo que pode ser aberto no navegador.
 
-### Monitoramento com Jaeger
-
-Atualmente, o Jaeger não está integrado ao projeto, mas pode ser adicionado para fornecer rastreamento distribuído e monitoramento de performance. A integração envolveria:
-
-1.  Adicionar um serviço do Jaeger ao `docker-compose.yml`.
-2.  Instrumentar o código do backend (por exemplo, usando um cliente OpenTelemetry) para que ele envie traces das requisições para o Jaeger.
-3.  Acessar a UI do Jaeger para visualizar os traces e analisar a performance das rotas da API.
-
 ## 🔌 Frontend e a Conexão com o Backend
 
 É crucial entender como a variável de ambiente `VITE_API_URL` no arquivo `.env` do frontend funciona:
 
--   **Para acesso via navegador (local):** Use `VITE_API_URL=http://localhost:3000/api`. O seu navegador acessa o `localhost`, e o Docker redireciona a porta `3000` para o contêiner do backend.
--   **Para comunicação interna do Docker:** Se um serviço precisasse se comunicar com outro *dentro* da rede do Docker, ele usaria o nome do serviço (ex: `http://backend:3000/api`). No nosso caso, como a requisição parte do navegador do usuário, usamos sempre `localhost`.
+- **Para acesso via navegador (local):** Use `VITE_API_URL=http://localhost:3000/api`. O seu navegador acessa o `localhost`, e o Docker redireciona a porta `3000` para o contêiner do backend.
+- **Para comunicação interna do Docker:** Se um serviço precisasse se comunicar com outro _dentro_ da rede do Docker, ele usaria o nome do serviço (ex: `http://backend:3000/api`). No nosso caso, como a requisição parte do navegador do usuário, usamos sempre `localhost`.
