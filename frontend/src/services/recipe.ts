@@ -42,11 +42,14 @@ export const searchRecipesByName = async (name: string) => {
 };
 
 export const searchRecipesByIngredient = async (ingredient: string) => {
-  const response = await axios.get(`${API_URL}/search/ingredient?q=${ingredient}`);
+  const response = await axios.get(
+    `${API_URL}/search/ingredient?q=${ingredient}`
+  );
   return response.data;
 };
 
 export const getAllRecipes = async () => {
   const response = await axios.get(API_URL);
+  console.log(response.data);
   return response.data;
 };

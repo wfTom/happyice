@@ -1,36 +1,25 @@
-import { Routes, Route, NavLink } from 'react-router-dom';
-import './styles/navigation.css';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import './styles/global.css';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import RecipeList from './pages/RecipeList';
 import RecipeForm from './pages/RecipeForm';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import RecipeDetail from './pages/RecipeDetail';
-import { useAuth } from './context/AuthContext';
+import Home from './pages/Home';
+import Header from './components/Header';
 
 function App() {
-  const { user, logout } = useAuth();
+  const location = useLocation();
+  const fullScreenRoutes = ['/login', '/register'];
+  const isFullScreen = fullScreenRoutes.includes(location.pathname);
 
   return (
-    <div>
-      <nav>
-        <ul>
-          <li><NavLink to="/">Home</NavLink></li>
-          <li><NavLink to="/recipes/new">New Recipe</NavLink></li>
-          <li><NavLink to="/favorites">Favorites</NavLink></li>
-          {user ? (
-            <li><button onClick={logout}>Logout</button></li>
-          ) : (
-            <>
-              <li><NavLink to="/login">Login</NavLink></li>
-              <li><NavLink to="/register">Register</NavLink></li>
-            </>
-          )}
-        </ul>
-      </nav>
-      <main className="container">
+    <div className={isFullScreen ? 'full-page' : ''}>
+      {!isFullScreen && <Header />}
+      <main className={isFullScreen ? 'full-page' : 'container'}>
         <Routes>
-          <Route path="/" element={<RecipeList />} />
+          <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/recipes" element={<RecipeList />} />

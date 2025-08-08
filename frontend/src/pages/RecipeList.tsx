@@ -6,6 +6,7 @@ import {
   searchRecipesByIngredient,
 } from '../services/recipe';
 import type { Recipe } from '../types/Recipe';
+import { Link } from 'react-router-dom';
 
 const RecipeList: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -20,10 +21,8 @@ const RecipeList: React.FC = () => {
         setLoading(true);
         const data = await getAllRecipes();
         setRecipes(data);
-        console.log('Receitas buscadas:', data);
       } catch (err: any) {
         setError(err.message);
-        console.error('Erro ao buscar receitas:', err);
       } finally {
         setLoading(false);
       }
@@ -35,14 +34,13 @@ const RecipeList: React.FC = () => {
   const handleSearch = async () => {
     try {
       setLoading(true);
-      let data: Recipe[] = [];
-      if (searchType === 'nome') {
-        data = await searchRecipesByName(searchTerm);
-      } else {
-        data = await searchRecipesByIngredient(searchTerm);
-      }
+      const data =
+        searchType === 'nome'
+          ? await searchRecipesByName(searchTerm)
+          : await searchRecipesByIngredient(searchTerm);
       setRecipes(data);
-      console.log('Receitas pesquisadas:', data);
+    } catch (err: any) {
+      setError('Erro ao buscar receitas.');
     } finally {
       setLoading(false);
     }
@@ -57,12 +55,13 @@ const RecipeList: React.FC = () => {
   }
 
   return (
-    <div>
-      <h2>Receitas</h2>
+    <section className="container">
+      <h2 className="page-title">Descubra Receitas</h2>
+
       <div className="search-bar">
         <input
           type="text"
-          placeholder="Buscar receitas..."
+          placeholder="Ex: bolo de cenoura"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -77,19 +76,38 @@ const RecipeList: React.FC = () => {
         </select>
         <button onClick={handleSearch}>Buscar</button>
       </div>
+
       {recipes.length === 0 ? (
         <p>Nenhuma receita encontrada.</p>
       ) : (
         <ul className="recipe-list">
           {recipes.map((recipe) => (
             <li key={recipe.id} className="recipe-item">
-              <h3>{recipe.name}</h3>
-              <p>{recipe.description}</p>
+              <Link
+                to={`/recipes/${recipe.id}`}
+                className="recipe-link"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                }}
+              >
+                <img
+                  className="thumb"
+                  src={'/placeholder.jpg'}
+                  alt={recipe.name}
+                  loading="lazy"
+                />
+                <div className="card-body">
+                  <h3>{recipe.name}</h3>
+                  <p>{recipe.description}</p>
+                </div>
+              </Link>
             </li>
           ))}
         </ul>
       )}
-    </div>
+    </section>
   );
 };
 

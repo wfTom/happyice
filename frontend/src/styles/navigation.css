@@ -1,10 +1,8 @@
-/* frontend/src/styles/navigation.css */
-
 nav {
   background-color: #fff;
   padding: 1rem 2rem;
   border-bottom: 1px solid #eee;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   margin-bottom: 2rem;
 }
 
@@ -25,6 +23,104 @@ nav ul li a {
   transition: background-color 0.2s;
 }
 
-nav ul li a:hover, nav ul li a.active {
+nav ul li a:hover,
+nav ul li a.active {
   background-color: #f0f2f5;
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.site-header .logo a {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #d9552a;
+  text-decoration: none;
+}
+
+.site-header nav {
+  border-radius: 8px;
+}
+
+.site-header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.site-header nav a,
+.site-header nav button {
+  color: #222;
+  font-weight: 500;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.site-header nav a:hover,
+.site-header nav a.active,
+.site-header nav button:hover {
+  background-color: #f9f5f1;
+  color: #d9552a;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hamburger {
+  display: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: none;
+  border: 1px solid #eee;
+}
+
+.mobile-menu {
+  display: none;
+  position: absolute;
+  top: 64px;
+  right: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .site-header .logo a {
+    font-size: 1.25rem;
+  }
+  .site-header nav ul {
+    display: none;
+  }
+  .hamburger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header {
+    padding: 0.75rem 1rem;
+  }
+  .site-header .logo a {
+    font-size: 1.05rem;
+  }
 }
