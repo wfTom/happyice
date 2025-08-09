@@ -42,7 +42,16 @@ describe('UpdateRecipe', () => {
       'Old Name',
       'Old Description',
       ['Old Step'],
-      [new RecipeIngredient(recipeId, 'oldIng', 'Old Ingredient', '1', 'unit', 0)],
+      [
+        new RecipeIngredient(
+          recipeId,
+          'oldIng',
+          'Old Ingredient',
+          '1',
+          'unit',
+          0
+        ),
+      ],
       new Date()
     );
 
@@ -63,11 +72,9 @@ describe('UpdateRecipe', () => {
         return null;
       }
     );
-    // TODO explain this part
+
     mockIngredientRepository.save.mockImplementation(
-      async (ingredient: Ingredient) => {
-        /* do nothing */
-      }
+      async (ingredient: Ingredient) => {}
     );
 
     await updateRecipe.execute(

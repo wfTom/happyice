@@ -113,9 +113,9 @@ A API é acessível através do serviço `backend` na porta `3000` (mapeada para
   - **Corpo da Requisição:** `{ email: string, password: string }`
   - **Respostas:** `201 Created`, `400 Bad Request`
 - **`POST /api/users/login`**
-  - **Descrição:** Autentica um usuário e retorna um token JWT.
+  - **Descrição:** Autentica um usuário e retorna um token JWT e os dados do usuário.
   - **Corpo da Requisição:** `{ email: string, password: string }`
-  - **Respostas:** `200 OK` (com `{ token: string }`), `400 Bad Request`
+  - **Respostas:** `200 OK` (com `{ token: string, user: { id: string, email: string } }`), `400 Bad Request`
 
 ### Receitas (`/api/recipes`)
 

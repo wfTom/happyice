@@ -23,7 +23,7 @@ describe('LoginUser', () => {
     loginUser = new LoginUser(mockUserRepository);
   });
 
-  it('should return a JWT token on successful login', async () => {
+  it('should return a JWT token and user DTO on successful login', async () => {
     const email = 'test@example.com';
     const password = 'Password123!';
     const hashedPassword = Password.create(password, false);
@@ -33,18 +33,22 @@ describe('LoginUser', () => {
     jest.spyOn(user.password, 'compare').mockReturnValue(true);
     jest.spyOn(jwt, 'sign').mockImplementation(() => 'mocked-jwt-token');
 
-    const token = await loginUser.execute(email, password);
+    const result = await loginUser.execute(email, password);
 
     expect(mockUserRepository.findByEmail).toHaveBeenCalledWith(
       Email.create(email)
     );
     expect(user.password.compare).toHaveBeenCalledWith(password);
     expect(jwt.sign).toHaveBeenCalledWith(
-      { id: user.id, email: user.email.value },
+      { id: user.id },
       process.env.JWT_SECRET || 'your-very-secret-key',
       { expiresIn: '1h' }
     );
-    expect(token).toBe('mocked-jwt-token');
+    expect(result.token).toBe('mocked-jwt-token');
+    expect(result.user).toEqual({
+      id: user.id,
+      email: user.email.value,
+    });
   });
 
   it('should throw an error for invalid email', async () => {
