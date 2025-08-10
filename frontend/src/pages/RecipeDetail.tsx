@@ -49,9 +49,9 @@ const RecipeDetail: React.FC = () => {
     if (!user || !recipe) return;
     try {
       if (isFavorite) {
-        await unfavoriteRecipe(user.id, recipe.id!);
+        await unfavoriteRecipe(recipe.id!);
       } else {
-        await favoriteRecipe(user.id, recipe.id!);
+        await favoriteRecipe(recipe.id!);
       }
       setIsFavorite(!isFavorite);
     } catch (err) {
