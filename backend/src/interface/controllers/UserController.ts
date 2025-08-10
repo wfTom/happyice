@@ -13,7 +13,7 @@ export class UserController {
       await registerUser.execute(email, password);
       res.status(201).send({ message: 'Usuário registrado com sucesso' });
     } catch (error: any) {
-      res.status(400).send({ error: error.message });
+      res.status(400).send({ message: error.message });
     }
   }
 
@@ -22,10 +22,10 @@ export class UserController {
       console.log('Login request received:', req.body);
       const { email, password } = req.body;
       const loginUser = new LoginUser(this.userRepository);
-      const token = await loginUser.execute(email, password);
-      res.status(200).send({ token });
+      const { token, user } = await loginUser.execute(email, password);
+      res.status(200).send({ token, user });
     } catch (error: any) {
-      res.status(400).send({ error: error.message });
+      res.status(400).send({ message: error.message });
     }
   }
 }
