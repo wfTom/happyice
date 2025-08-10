@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const API_URL = import.meta.env.VITE_API_URL + '/recipes';
+import api from './api';
 
 interface RecipeIngredient {
   ingredientId: string;
@@ -17,39 +15,38 @@ interface Recipe {
 }
 
 export const createRecipe = async (recipe: Recipe) => {
-  const response = await axios.post(API_URL, recipe);
+  const response = await api.post('/recipes', recipe);
   return response.data;
 };
 
 export const getRecipe = async (id: string) => {
-  const response = await axios.get(`${API_URL}/${id}`);
+  const response = await api.get(`/recipes/${id}`);
   return response.data;
 };
 
 export const updateRecipe = async (id: string, recipe: Recipe) => {
-  const response = await axios.put(`${API_URL}/${id}`, recipe);
+  const response = await api.put(`/recipes/${id}`, recipe);
   return response.data;
 };
 
 export const deleteRecipe = async (id: string) => {
-  const response = await axios.delete(`${API_URL}/${id}`);
+  const response = await api.delete(`/recipes/${id}`);
   return response.data;
 };
 
 export const searchRecipesByName = async (name: string) => {
-  const response = await axios.get(`${API_URL}/search/name?q=${name}`);
+  const response = await api.get(`/recipes/search/name?q=${name}`);
   return response.data;
 };
 
 export const searchRecipesByIngredient = async (ingredient: string) => {
-  const response = await axios.get(
-    `${API_URL}/search/ingredient?q=${ingredient}`
+  const response = await api.get(
+    `/recipes/search/ingredient?q=${ingredient}`
   );
   return response.data;
 };
 
 export const getAllRecipes = async () => {
-  const response = await axios.get(API_URL);
-  console.log(response.data);
+  const response = await api.get('/recipes');
   return response.data;
 };

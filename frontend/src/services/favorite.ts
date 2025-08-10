@@ -1,18 +1,16 @@
-import axios from 'axios';
+import api from './api';
 
-const API_URL = import.meta.env.VITE_API_URL + '/favorites';
-
-export const favoriteRecipe = async (userId: string, recipeId: string) => {
-  const response = await axios.post(API_URL, { userId, recipeId });
+export const favoriteRecipe = async (recipeId: string) => {
+  const response = await api.post('/favorites', { recipeId });
   return response.data;
 };
 
-export const unfavoriteRecipe = async (userId: string, recipeId: string) => {
-  const response = await axios.delete(`${API_URL}/${userId}/${recipeId}`);
+export const unfavoriteRecipe = async (recipeId: string) => {
+  const response = await api.delete(`/favorites/${recipeId}`);
   return response.data;
 };
 
-export const listFavoriteRecipes = async (userId: string) => {
-  const response = await axios.get(`${API_URL}/${userId}`);
+export const listFavoriteRecipes = async () => {
+  const response = await api.get('/favorites');
   return response.data;
 };
