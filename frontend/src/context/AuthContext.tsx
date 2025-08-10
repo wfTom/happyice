@@ -3,14 +3,10 @@ import type { ReactNode } from 'react';
 import { login as authLogin, register as authRegister } from '../services/auth';
 
 interface AuthContextType {
-  user: { id: string; username: string; email: string } | null;
+  user: { id: string; email: string } | null;
   token: string | null;
   login: (email: string, password: string) => Promise<void>;
-  register: (
-    username: string,
-    email: string,
-    password: string
-  ) => Promise<void>;
+  register: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -21,7 +17,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<{
     id: string;
-    username: string;
     email: string;
   } | null>(null);
   const [token, setToken] = useState<string | null>(null);
@@ -37,18 +32,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const login = async (email: string, password: string) => {
     const { token, user } = await authLogin(email, password);
+    console.log(token, user);
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
     setToken(token);
     setUser(user);
   };
 
-  const register = async (
-    username: string,
-    email: string,
-    password: string
-  ) => {
-    const response = await authRegister(username, email, password);
+  const register = async (email: string, password: string) => {
+    const response = await authRegister(email, password);
     return response;
   };
 
