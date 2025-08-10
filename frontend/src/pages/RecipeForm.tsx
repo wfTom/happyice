@@ -4,6 +4,10 @@ import '../styles/recipe-form.css';
 import { getRecipe, createRecipe, updateRecipe } from '../services/recipe';
 import type { RecipeIngredient } from '../types/RecipeIngredient';
 
+import RecipeHeader from '../components/RecipeHeader';
+import RecipeField from '../components/RecipeField';
+import IngredientRow from '../components/IngredientRow';
+
 const RecipeForm: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -18,18 +22,13 @@ const RecipeForm: React.FC = () => {
     if (id) {
       setLoading(true);
       getRecipe(id)
-        .then((response) => {
-          const recipe = response;
+        .then((recipe) => {
           setName(recipe.name);
           setDescription(recipe.description);
           setSteps(recipe.steps.join('\n'));
           setIngredients(recipe.ingredients);
-          console.log('Receita buscada para edição:', recipe);
         })
-        .catch((err) => {
-          setError(err.message);
-          console.error('Erro ao buscar receita:', err);
-        })
+        .catch((err) => setError(err.message))
         .finally(() => setLoading(false));
     }
   }, [id]);
@@ -40,10 +39,7 @@ const RecipeForm: React.FC = () => {
     value: string | number
   ) => {
     const newIngredients = [...ingredients];
-    newIngredients[index] = {
-      ...newIngredients[index],
-      [field]: value,
-    };
+    newIngredients[index] = { ...newIngredients[index], [field]: value };
     setIngredients(newIngredients);
   };
 
@@ -55,34 +51,36 @@ const RecipeForm: React.FC = () => {
   };
 
   const removeIngredient = (index: number) => {
-    const newIngredients = ingredients.filter((_, i) => i !== index);
-    setIngredients(newIngredients);
+    setIngredients(ingredients.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
+    for (const ingredient of ingredients) {
+      const quantity = parseFloat(String(ingredient.quantity));
+      if (isNaN(quantity) || quantity <= 0) {
+        setError('A quantidade de um ingrediente deve ser maior que 0.');
+        setLoading(false);
+        return;
+      }
+    }
     const recipeData = {
       name,
       description,
       steps: steps.split('\n').filter((step) => step.trim() !== ''),
       ingredients,
     };
-
     try {
       if (id) {
         await updateRecipe(id, recipeData);
-        console.log('Receita atualizada:', recipeData);
       } else {
         await createRecipe(recipeData);
-        console.log('Receita criada:', recipeData);
       }
       navigate('/recipes');
     } catch (err: any) {
       setError(err.message);
-      console.error('Erro ao salvar receita:', err);
     } finally {
       setLoading(false);
     }
@@ -93,91 +91,60 @@ const RecipeForm: React.FC = () => {
   }
 
   return (
-    <div className="recipe-form">
-      <h2>{id ? 'Editar Receita' : 'Criar Receita'}</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Nome:</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
+    <div className="recipe-form-container">
+      <RecipeHeader
+        title={id ? 'Editar Receita' : 'Criar Receita'}
+        subtitle={
+          id
+            ? 'Atualize as informações da sua receita.'
+            : 'Preencha os campos abaixo para adicionar uma nova receita deliciosa.'
+        }
+      />
+
+      <form onSubmit={handleSubmit} className="recipe-form">
+        <RecipeField label="Nome:" value={name} onChange={setName} required />
+        <RecipeField
+          label="Descrição:"
+          value={description}
+          onChange={setDescription}
+          textarea
+          required
+        />
+        <RecipeField
+          label="Passos (um por linha):"
+          value={steps}
+          onChange={setSteps}
+          textarea
+          required
+        />
+
+        <div className="ingredient-section">
+          <h3>Ingredientes</h3>
+          {ingredients.map((ingredient, index) => (
+            <IngredientRow
+              key={index}
+              ingredient={ingredient}
+              index={index}
+              onChange={handleIngredientChange}
+              onRemove={removeIngredient}
+            />
+          ))}
+
+          <button
+            type="button"
+            onClick={addIngredient}
+            className="add-ingredient-button"
+          >
+            Adicionar Ingrediente
+          </button>
         </div>
-        <div>
-          <label htmlFor="description">Descrição:</label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
+
+        <div className="form-actions">
+          <button type="submit" disabled={loading} className="submit-button">
+            {id ? 'Atualizar Receita' : 'Criar Receita'}
+          </button>
         </div>
-        <div>
-          <label htmlFor="steps">Passos (um por linha):</label>
-          <textarea
-            id="steps"
-            value={steps}
-            onChange={(e) => setSteps(e.target.value)}
-            required
-          />
-        </div>
-        <h3>Ingredientes</h3>
-        {ingredients.map((ingredient, index) => (
-          <div key={index} className="ingredient-inputs">
-            <input
-              type="text"
-              placeholder="ID do Ingrediente"
-              value={ingredient.ingredientId}
-              onChange={(e) =>
-                handleIngredientChange(index, 'ingredientId', e.target.value)
-              }
-              required
-            />
-            <input
-              type="text"
-              placeholder="Nome do Ingrediente"
-              value={ingredient.name}
-              onChange={(e) =>
-                handleIngredientChange(index, 'name', e.target.value)
-              }
-              required
-            />
-            <input
-              type="number"
-              placeholder="Quantidade"
-              value={ingredient.quantity}
-              onChange={(e) =>
-                handleIngredientChange(
-                  index,
-                  'quantity',
-                  parseFloat(e.target.value)
-                )
-              }
-              required
-            />
-            <input
-              type="text"
-              placeholder="Unidade"
-              value={ingredient.unit}
-              onChange={(e) =>
-                handleIngredientChange(index, 'unit', e.target.value)
-              }
-              required
-            />
-            <button type="button" onClick={() => removeIngredient(index)} className="remove-ingredient-button">
-              Remover
-            </button>
-          </div>
-        ))}
-        <button type="button" onClick={addIngredient} className="add-ingredient-button">
-          Adicionar Ingrediente
-        </button>
-        <button type="submit" disabled={loading} className="submit-button">
-          {id ? 'Atualizar Receita' : 'Criar Receita'}
-        </button>
+
         {error && <p className="error">Erro: {error}</p>}
       </form>
     </div>
