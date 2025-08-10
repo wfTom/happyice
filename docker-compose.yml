@@ -46,7 +46,14 @@ services:
     container_name: happyice-frontend
     restart: always
     ports:
-      - '80:80'
+      - '5173:5173'
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend
+          target: /app
+          ignore:
+            - node_modules/
     depends_on:
       - backend
     networks:

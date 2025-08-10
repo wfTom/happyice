@@ -1,22 +1,179 @@
-.recipe-form .ingredient-inputs {
+.recipe-form-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.recipe-form {
+  background: #fff6ed;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Mover título e subtítulo para dentro do formulário */
+.page-header {
   margin-bottom: 1rem;
 }
 
-.recipe-form .remove-ingredient-button {
-  background-color: #dc3545;
+.page-header h1 {
+  margin: 0 0 0.25rem 0;
+  font-weight: 700;
 }
 
-.recipe-form .remove-ingredient-button:hover {
-  background-color: #c82333;
+.page-subtitle {
+  margin: 0;
+  color: #555;
 }
 
-.recipe-form .add-ingredient-button {
-  background-color: #28a745;
-  margin-right: 1rem;
+/* Formulário principal - inputs e textarea */
+.recipe-form > .form-section {
+  margin-bottom: 1rem;
 }
 
-.recipe-form .add-ingredient-button:hover {
-  background-color: #218838;
+/* Ingredient Section */
+.ingredient-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+/* Ajustar alinhamento dos campos dos ingredientes */
+.ingredient-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr auto;
+  gap: 0.8rem;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+/* Só os dois primeiros inputs têm margem direita */
+.ingredient-row input:nth-child(1),
+.ingredient-row input:nth-child(2) {
+  margin-right: 0.8rem;
+}
+
+/* Botão remover ingrediente continua igual */
+.remove-ingredient-icon {
+  background: #dc3545;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.remove-ingredient-icon img {
+  width: 16px;
+  height: 16px;
+}
+
+.remove-ingredient-icon:hover {
+  background: #b52b38;
+  transform: scale(1.05);
+}
+
+/* Botão "Adicionar Ingrediente" centralizado */
+.add-ingredient-button {
+  background-color: #ff9800;
+  color: white;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 30px;
+  font-weight: 500;
+  cursor: pointer;
+  width: fit-content;
+  align-self: center;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.add-ingredient-button:hover {
+  background-color: #e68900;
+  transform: translateY(-1px);
+}
+
+/* Botão "Criar Receita" alinhado à direita no container do formulário */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submit-button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.submit-button:hover {
+  background-color: #0069d9;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .ingredient-row {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .ingredient-row input:nth-child(1),
+  .ingredient-row input:nth-child(2) {
+    margin-right: 0;
+  }
+
+  .add-ingredient-button {
+    width: 100%;
+    align-self: stretch;
+  }
+
+  .form-actions {
+    justify-content: center;
+  }
+
+  .submit-button {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .recipe-form {
+    padding: 1rem;
+  }
+
+  .recipe-form input,
+  .recipe-form textarea,
+  .recipe-form select {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+}
+
+.recipe-form input,
+textarea,
+select {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+
+.recipe-form input,
+textarea,
+select,
+button {
+  margin-bottom: 1rem;
 }

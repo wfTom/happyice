@@ -1,24 +1,13 @@
-# build stage
-FROM node:22-alpine as build-stage
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
-
-# production stage
 FROM node:22-alpine
+
 WORKDIR /app
 
-# Copy built assets and necessary files
-COPY --from=build-stage /app/dist ./dist
-COPY --from=build-stage /app/package.json ./
-COPY --from=build-stage /app/package-lock.json ./
+COPY package*.json ./
 
-# Install serve
-RUN npm install serve
+RUN npm install
 
-EXPOSE 80
+COPY . .
 
-# Start server with serve, -s for SPA mode
-CMD ["npx", "serve", "-s", "dist", "-l", "80"]
+EXPOSE 5173
+
+CMD ["npm", "run", "dev"]

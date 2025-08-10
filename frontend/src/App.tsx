@@ -15,21 +15,19 @@ function App() {
   const isFullScreen = fullScreenRoutes.includes(location.pathname);
 
   return (
-    <div className={isFullScreen ? 'full-page' : ''}>
+    <main className={isFullScreen ? 'full-page' : 'container'}>
       {!isFullScreen && <Header />}
-      <main className={isFullScreen ? 'full-page' : 'container'}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/recipes" element={<RecipeList />} />
-          <Route path="/recipes/new" element={<RecipeForm />} />
-          <Route path="/recipes/edit/:id" element={<RecipeForm />} />
-          <Route path="/recipes/:id" element={<RecipeDetail />} />
-          <Route path="/favorites" element={<FavoriteRecipes />} />
-        </Routes>
-      </main>
-    </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/recipes" element={<RecipeList />} />
+        <Route path="/recipes/new" element={<RecipeForm />} />
+        <Route path="/recipes/edit/:id" element={<RecipeForm />} />
+        <Route path="/recipes/:id" element={<RecipeDetail />} />
+        <Route path="/favorites" element={<FavoriteRecipes />} />
+      </Routes>
+    </main>
   );
 }
 
