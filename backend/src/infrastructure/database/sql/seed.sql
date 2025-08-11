@@ -1,7 +1,7 @@
 -- Usuários de Exemplo
 INSERT INTO users (id, email, password, created_at) VALUES
-    ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'user1@example.com', 'hashed_password_1', CURRENT_TIMESTAMP),
-    ('b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'user2@example.com', 'hashed_password_2', CURRENT_TIMESTAMP)
+    ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'user1@example.com', '$2b$10$nZVO4a0NXYEoAHYiAikaS.1TM6dtYVsCPKM0fpt1iQGokGGIy6yZy', CURRENT_TIMESTAMP),
+    ('b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'user2@example.com', '$2b$10$nZVO4a0NXYEoAHYiAikaS.1TM6dtYVsCPKM0fpt1iQGokGGIy6yZy', CURRENT_TIMESTAMP)
 ON CONFLICT (id) DO NOTHING;
 
 -- Ingredientes de Exemplo
@@ -22,12 +22,12 @@ ON CONFLICT (id) DO NOTHING;
 
 -- Ingredientes para Receitas de Exemplo
 INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity, unit, display_order) VALUES
-    ('33eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '500', 'gramas', 0),
+    ('33eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '500', 'g', 0),
     ('33eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'd0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '1', 'unidade', 1),
-    ('33eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '2', 'dentes', 2),
-    ('44eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '200', 'gramas', 0),
-    ('44eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '11eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '300', 'gramas', 1),
-    ('44eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '400', 'gramas', 2)
+    ('33eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '2', 'unidade', 2),
+    ('44eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '200', 'g', 0),
+    ('44eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '11eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '300', 'g', 1),
+    ('44eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '400', 'g', 2)
 ON CONFLICT (recipe_id, ingredient_id) DO NOTHING;
 
 -- Favoritos de Exemplo

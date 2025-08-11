@@ -28,7 +28,7 @@ CREATE TABLE recipe_ingredients (
     recipe_id UUID NOT NULL,
     ingredient_id UUID NOT NULL,
     quantity VARCHAR(100),
-    unit VARCHAR(100),
+    unit VARCHAR(100) CHECK (unit IN ('g', 'kg', 'ml', 'l', 'colher de sopa', 'colher de chá', 'unidade')),
     display_order INTEGER NOT NULL,
     PRIMARY KEY (recipe_id, ingredient_id),
     UNIQUE (recipe_id, display_order),
