@@ -14,7 +14,6 @@
   gap: 1.5rem;
 }
 
-/* Mover título e subtítulo para dentro do formulário */
 .page-header {
   margin-bottom: 1rem;
 }
@@ -29,19 +28,16 @@
   color: #555;
 }
 
-/* Formulário principal - inputs e textarea */
 .recipe-form > .form-section {
   margin-bottom: 1rem;
 }
 
-/* Ingredient Section */
 .ingredient-section {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
 }
 
-/* Ajustar alinhamento dos campos dos ingredientes */
 .ingredient-row {
   display: grid;
   grid-template-columns: 2fr 1fr 1.5fr auto;
@@ -50,13 +46,11 @@
   margin-bottom: 0;
 }
 
-/* Só os dois primeiros inputs têm margem direita */
 .ingredient-row input:nth-child(1),
 .ingredient-row input:nth-child(2) {
   margin-right: 0.8rem;
 }
 
-/* Botão remover ingrediente continua igual */
 .remove-ingredient-icon {
   background: #dc3545;
   border: none;
@@ -81,7 +75,6 @@
   transform: scale(1.05);
 }
 
-/* Botão "Adicionar Ingrediente" centralizado */
 .add-ingredient-button {
   background-color: #ff9800;
   color: white;
@@ -100,7 +93,6 @@
   transform: translateY(-1px);
 }
 
-/* Botão "Criar Receita" alinhado à direita no container do formulário */
 .form-actions {
   display: flex;
   justify-content: flex-end;
@@ -121,7 +113,6 @@
   background-color: #0069d9;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .ingredient-row {
     grid-template-columns: 1fr;
@@ -162,8 +153,8 @@
 }
 
 .recipe-form input,
-textarea,
-select {
+.recipe-form textarea,
+.recipe-form select {
   width: 100%;
   padding: 0.6rem;
   border-radius: 6px;
@@ -172,8 +163,8 @@ select {
 }
 
 .recipe-form input,
-textarea,
-select,
-button {
+.recipe-form textarea,
+.recipe-form select,
+.recipe-form button {
   margin-bottom: 1rem;
 }

@@ -32,6 +32,13 @@
   text-decoration: none;
   font-weight: 700;
   margin-top: 0.5rem;
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+}
+
+.btn-primary:hover {
+  background-color: #c04a24;
+  text-decoration: none;
 }
 
 @media (max-width: 900px) {
