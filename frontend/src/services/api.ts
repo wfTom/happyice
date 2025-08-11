@@ -15,6 +15,7 @@ api.interceptors.request.use(
       if (decodedToken.exp < currentTime) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        window.location.href = '/login';
         return Promise.reject(new axios.Cancel('Token expirado. Redirecionando para o login.'));
       }
 
@@ -23,6 +24,20 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/login';
+    }
     return Promise.reject(error);
   }
 );

@@ -1,7 +1,7 @@
 import api from './api';
 
 interface RecipeIngredient {
-  ingredientId: string;
+  ingredientId?: string;
   quantity: number;
   unit: string;
 }
@@ -35,13 +35,13 @@ export const deleteRecipe = async (id: string) => {
 };
 
 export const searchRecipesByName = async (name: string) => {
-  const response = await api.get(`/recipes/search/name?q=${name}`);
+  const response = await api.get(`/recipes/search/name?name=${name}`);
   return response.data;
 };
 
 export const searchRecipesByIngredient = async (ingredient: string) => {
   const response = await api.get(
-    `/recipes/search/ingredient?q=${ingredient}`
+    `/recipes/search/ingredient?ingredient=${ingredient}`
   );
   return response.data;
 };
