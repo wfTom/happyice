@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { listFavoriteRecipes } from '../services/favorite';
 import type { Recipe } from '../types/Recipe';
+import RecipeDisplayCard from '../components/RecipeDisplayCard';
 import { useAuth } from '../context/AuthContext';
+import RecipeHeader from '../components/RecipeHeader';
 
 const FavoriteRecipes: React.FC = () => {
   const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([]);
@@ -17,17 +19,14 @@ const FavoriteRecipes: React.FC = () => {
         return;
       }
       try {
-        const recipes = await listFavoriteRecipes(user.id);
+        const recipes = await listFavoriteRecipes();
         setFavoriteRecipes(recipes);
-        console.log('Receitas favoritas buscadas:', recipes);
       } catch (err: any) {
         setError(err.message);
-        console.error('Erro ao buscar receitas favoritas:', err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchFavoriteRecipes();
   }, [user]);
 
@@ -37,43 +36,29 @@ const FavoriteRecipes: React.FC = () => {
 
   if (!user) {
     return (
-      <div className="error" style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+      <div className="error-message">
         Opa! Parece que você não está logado.
         <br />
-        Por favor, faça login para acessar suas receitas favoritas.
+        Faça login para acessar suas receitas favoritas.
       </div>
     );
   }
 
   if (error) {
-    return <div className="error">Erro: {error}</div>;
+    return <div className="error-message">Erro: {error}</div>;
   }
 
   return (
     <div>
-      <h2>Receitas Favoritas</h2>
+      <RecipeHeader title="Receitas Favoritas" />
       {favoriteRecipes.length === 0 ? (
-        <p>Nenhuma receita favorita encontrada.</p>
+        <p className="empty-message">Nenhuma receita favorita encontrada.</p>
       ) : (
         <ul className="favorite-recipes">
           {favoriteRecipes.map((recipe) => (
             <li key={recipe.id} className="favorite-recipe-item">
               <h3>{recipe.name}</h3>
-              <p>{recipe.description}</p>
-              <h4>Passos:</h4>
-              <ol>
-                {recipe.steps.map((step, index) => (
-                  <li key={index}>{step}</li>
-                ))}
-              </ol>
-              <h4>Ingredientes:</h4>
-              <ul>
-                {recipe.ingredients.map((ingredient, index) => (
-                  <li key={index}>
-                    {ingredient.quantity} {ingredient.unit} de {ingredient.name}
-                  </li>
-                ))}
-              </ul>
+              <RecipeDisplayCard recipe={recipe} />
             </li>
           ))}
         </ul>

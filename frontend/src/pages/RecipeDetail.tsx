@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/recipe-detail.css';
 import { getRecipe } from '../services/recipe';
 import {
@@ -7,14 +7,15 @@ import {
   unfavoriteRecipe,
   listFavoriteRecipes,
 } from '../services/favorite';
-import placeholderImage from '../assets/placeholder.svg';
 import heart from '../assets/heart.svg';
 import heartFill from '../assets/heart-fill.svg';
 import type { Recipe } from '../types/Recipe';
 import { useAuth } from '../context/AuthContext';
+import RecipeDisplayCard from '../components/RecipeDisplayCard';
 
 const RecipeDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -29,7 +30,7 @@ const RecipeDetail: React.FC = () => {
         setRecipe(recipeResponse);
 
         if (user) {
-          const favoriteRecipesResponse = await listFavoriteRecipes(user.id);
+          const favoriteRecipesResponse = await listFavoriteRecipes();
           const favorite = favoriteRecipesResponse.some(
             (favRecipe: Recipe) => favRecipe.id === recipeResponse.id
           );
@@ -68,58 +69,39 @@ const RecipeDetail: React.FC = () => {
     <div className="recipe-detail">
       <div className="recipe-header">
         <h2>{recipe.name}</h2>
-        <button
-          onClick={handleFavoriteToggle}
-          className="favorite-button"
-          disabled={!user}
-          aria-label={
-            isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'
-          }
-        >
-          <img
-            src={isFavorite ? heartFill : heart}
-            alt="Favoritar"
-            width="28"
-            height="28"
-          />
-        </button>
+        <div className="recipe-actions">
+          {user && recipe.id && (
+            <button
+              onClick={() => navigate(`/recipes/edit/${recipe.id}`)}
+              className="edit-button"
+              aria-label="Editar Receita"
+            >
+              Editar
+            </button>
+          )}
+          <button
+            onClick={handleFavoriteToggle}
+            className="favorite-button"
+            disabled={!user}
+            aria-label={
+              isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'
+            }
+          >
+            <img
+              src={isFavorite ? heartFill : heart}
+              alt="Favoritar"
+              width="28"
+              height="28"
+            />
+          </button>
+        </div>
       </div>
 
       {!user && (
         <p className="login-hint">Faça login para favoritar receitas.</p>
       )}
-      <p className="description">
-        <strong>Descrição:</strong> {recipe.description}
-      </p>
 
-      <img
-        className="thumb"
-        src={placeholderImage}
-        alt={recipe.name}
-        loading="lazy"
-      />
-
-      <div className="recipe-content">
-        <div>
-          <h3>Passos</h3>
-          <ol>
-            {recipe.steps.map((step, index) => (
-              <li key={index}>{step}</li>
-            ))}
-          </ol>
-        </div>
-
-        <div>
-          <h3>Ingredientes</h3>
-          <ul>
-            {recipe.ingredients.map((ingredient, index) => (
-              <li key={index}>
-                {ingredient.quantity} {ingredient.unit} de {ingredient.name}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      {recipe && <RecipeDisplayCard recipe={recipe} />}
     </div>
   );
 };

@@ -69,6 +69,7 @@ const Header: React.FC = () => {
                     logout();
                     setMenuOpen(false);
                   }}
+                  className="nav-link-button"
                 >
                   Sair
                 </button>

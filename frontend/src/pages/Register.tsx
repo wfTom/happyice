@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/auth-form.css';
 import '../styles/global.css';
 import { useAuth } from '../context/AuthContext';
+import RecipeHeader from '../components/RecipeHeader';
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -19,14 +20,14 @@ const Register: React.FC = () => {
       navigate('/login');
     } catch (err: any) {
       console.log(err);
-      setError(err.response?.data?.error || 'Erro ao registrar usuário');
+      setError(err.response?.data?.message || 'Erro ao registrar usuário');
     }
   };
 
   return (
     <div className="login-page-background">
       <div className="login-card">
-        <h2 className="login-title">Bem-vindo ao CookBook 🍲</h2>
+        <RecipeHeader title="Bem-vindo ao CookBook 🍲" />
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email">Email:</label>
@@ -51,6 +52,16 @@ const Register: React.FC = () => {
           <button type="submit">Registrar</button>
           {error && <p className="error">{error}</p>}
         </form>
+        <p className="auth-link-text">
+          Já tem uma conta?{' '}
+          <button
+            type="button"
+            onClick={() => navigate('/login')}
+            className="auth-link-button"
+          >
+            Faça Login
+          </button>
+        </p>
       </div>
     </div>
   );

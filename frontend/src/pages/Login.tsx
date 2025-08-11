@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/auth-form.css';
 import '../styles/global.css';
 import { useAuth } from '../context/AuthContext';
+import RecipeHeader from '../components/RecipeHeader';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -25,7 +26,7 @@ const Login: React.FC = () => {
   return (
     <div className="login-page-background">
       <div className="login-card">
-        <h2 className="login-title">Bem-vindo de volta 🍲</h2>
+        <RecipeHeader title="Bem-vindo de volta 🍲" />
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email">Email:</label>
@@ -50,6 +51,16 @@ const Login: React.FC = () => {
           <button type="submit">Entrar</button>
           {error && <p className="error">{error}</p>}
         </form>
+        <p className="auth-link-text">
+          Não tem uma conta ainda?{' '}
+          <button
+            type="button"
+            onClick={() => navigate('/register')}
+            className="auth-link-button"
+          >
+            Cadastre-se
+          </button>
+        </p>
       </div>
     </div>
   );

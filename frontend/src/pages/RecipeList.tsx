@@ -8,6 +8,7 @@ import {
 import type { Recipe } from '../types/Recipe';
 import { Link } from 'react-router-dom';
 import placeholderImage from '../assets/placeholder.svg';
+import RecipeHeader from '../components/RecipeHeader';
 
 const RecipeList: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -56,8 +57,8 @@ const RecipeList: React.FC = () => {
   }
 
   return (
-    <section className="container">
-      <h2 className="page-title">Descubra Receitas</h2>
+    <div>
+      <RecipeHeader title="Descubra Receitas" />
 
       <div className="search-bar">
         <input
@@ -108,7 +109,7 @@ const RecipeList: React.FC = () => {
           ))}
         </ul>
       )}
-    </section>
+    </div>
   );
 };
 
