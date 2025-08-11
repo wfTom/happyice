@@ -18,7 +18,7 @@ export class FavoriteController {
       await this.favoriteRecipe.execute(userId, recipeId);
       res.status(201).send({ message: 'Receita favoritada com sucesso' });
     } catch (error: any) {
-      res.status(400).send({ error: error.message });
+      res.status(400).send({ message: error.message });
     }
   }
 
@@ -29,7 +29,7 @@ export class FavoriteController {
       await this.unfavoriteRecipe.execute(userId, recipeId);
       res.status(200).send({ message: 'Receita desfavoritada com sucesso' });
     } catch (error: any) {
-      res.status(400).send({ error: error.message });
+      res.status(400).send({ message: error.message });
     }
   }
 
@@ -39,7 +39,7 @@ export class FavoriteController {
       const recipes = await this.listFavoriteRecipes.execute(userId);
       res.json(recipes);
     } catch (error: any) {
-      res.status(500).send({ error: error.message });
+      res.status(400).send({ message: error.message });
     }
   }
 }

@@ -37,8 +37,8 @@ export class RecipeRepository implements IRecipeRepository {
             row.ingredient_id,
             row.ingredient_name,
             row.ingredient_quantity,
-            row.ingredient_order ?? 0,
-            row.ingredient_unit
+            row.ingredient_unit,
+            row.display_order ?? 0
           )
         );
       }

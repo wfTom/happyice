@@ -73,7 +73,7 @@ export class RecipeController {
       await this.deleteRecipe.execute(id);
       res.status(200).send({ message: 'Receita deletada com sucesso' });
     } catch (error: any) {
-      res.status(400).send({ error: error.message });
+      res.status(400).send({ message: error.message });
     }
   }
 
@@ -81,16 +81,13 @@ export class RecipeController {
     try {
       const { name } = req.query;
       if (!name) {
-        res.status(400).json({ error: 'O nome da receita é obrigatório' });
+        res.status(400).json({ message: 'O nome da receita é obrigatório' });
         return;
       }
       const recipes = await this.searchRecipesByName.execute(name as string);
       res.json(recipes);
-    } catch (error) {
-      if (process.env.NODE_ENV !== 'test') {
-        console.error(error);
-      }
-      res.status(500).json({ error: 'Internal server error' });
+    } catch (error: any) {
+      res.status(400).send({ message: error.message });
     }
   }
 
@@ -105,11 +102,8 @@ export class RecipeController {
         ingredient as string
       );
       res.json(recipes);
-    } catch (error) {
-      if (process.env.NODE_ENV !== 'test') {
-        console.error(error);
-      }
-      res.status(500).json({ error: 'Internal server error' });
+    } catch (error: any) {
+      res.status(400).send({ message: error.message });
     }
   }
 
@@ -118,10 +112,7 @@ export class RecipeController {
       const recipes = await this.listAllRecipes.execute();
       res.json(recipes);
     } catch (error: any) {
-      if (process.env.NODE_ENV !== 'test') {
-        console.error(error);
-      }
-      res.status(500).json({ error: 'Internal server error' });
+      res.status(400).send({ message: error.message });
     }
   }
 }
