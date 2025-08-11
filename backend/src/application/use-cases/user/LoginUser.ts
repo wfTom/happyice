@@ -1,6 +1,6 @@
 import { IUserRepository } from '../../../domain/repositories/IUserRepository';
 import { Email } from '../../../domain/value-objects/email';
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { UserDTO } from '../../dtos/UserDTO';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-very-secret-key';
