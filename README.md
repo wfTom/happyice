@@ -184,7 +184,7 @@ Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina.
 1.  **Clone o Repositório:**
 
     ```bash
-    git clone <URL_DO_SEU_REPOSITORIO>
+    git clone https://github.com/wfTom/happyice.git
     cd happyice
     ```
 
@@ -197,7 +197,8 @@ Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina.
     DB_NAME=happyice
     DB_HOST=db
     DB_PORT=5432
-    # Você pode adicionar outras variáveis de ambiente aqui, como JWT_SECRET
+    JWT_SECRET=secret
+    # Você pode adicionar outras variáveis de ambiente aqui
     ```
 
 3.  **Configurar Variáveis de Ambiente (Frontend):**
@@ -205,6 +206,7 @@ Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina.
 
     ```
     VITE_API_URL=http://localhost:3000/api
+    VITE_JWT_SECRET=secret
     ```
 
     _Nota: Se você estiver rodando em um ambiente diferente de `localhost`, ajuste `http://localhost:3000/api` para a URL da sua API._
@@ -223,6 +225,20 @@ Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina.
       - Aguardar o banco de dados estar saudável.
       - Iniciar o serviço `backend` (API Node.js).
       - Iniciar o serviço `frontend` (Aplicação React).
+
+### Dados de Exemplo Iniciais
+
+O banco de dados é populado automaticamente na primeira vez que os serviços Docker são iniciados, fornecendo dados de exemplo para facilitar o uso imediato da aplicação.
+
+Você pode usar os seguintes usuários de exemplo para testar a aplicação:
+
+- **Email:** `user1@example.com`
+- **Senha:** `123456`
+
+- **Email:** `user2@example.com`
+- **Senha:** `123456`
+
+Esses usuários já possuem algumas receitas e favoritos associados, permitindo que você explore as funcionalidades da aplicação sem a necessidade de criar novos dados manualmente.
 
 5.  **Acessar a Aplicação:**
     - O frontend estará acessível em `http://localhost:80` (ou apenas `http://localhost` se a porta 80 for a padrão).
@@ -272,7 +288,7 @@ docker-compose down -v
 
 ## 🌱 Inicialização do Banco de Dados e Seeds
 
-O banco de dados é inicializado e populado automaticamente na primeira vez que o serviço do Docker é iniciado. Esse processo é gerenciado pelos scripts SQL localizados em `backend/src/infrastructure/database/sql/`:
+O banco de dados é inicializado e populado automaticamente na primeira vez que o serviço do Docker é iniciado. Esse processo é gerenciado pelos scripts SQL localizados em `backend/src/infrastructure/database/sql/`:`
 
 - **`10-init.sql`**: Este script é executado primeiro e é responsável por criar toda a estrutura de tabelas, chaves primárias, estrangeiras e outros constraints necessários para a aplicação.
 - **`20-seed.sql`**: Após a criação da estrutura, este script é executado para popular o banco de dados com dados iniciais (seeds). Isso inclui, por exemplo, uma lista de ingredientes comuns e algumas receitas de exemplo, permitindo que a aplicação seja utilizada imediatamente após a instalação.
